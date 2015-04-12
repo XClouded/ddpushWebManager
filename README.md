@@ -32,5 +32,7 @@ ddpush官网提供了java的服务器。（没有 WEB 管理接口以及WEB管�
 http://blog.csdn.net/brok1n/article/details/45016863
 
 
-
+后台管理
+账号: admin
+密码: admin
 
