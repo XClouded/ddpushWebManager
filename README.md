@@ -23,7 +23,7 @@ ddpush官网提供了java的服务器。（没有 WEB 管理接口以及WEB管�
 第一个是java的eclipse项目 HttpPushServer 是用来提供WEB推送接口的
 第二个是php的后台项目 ddpushWebManager 是用来在浏览器里管理推送消息以及在浏览器上推送消息到某个用户
 
-当然我不是做PHP的。这个PHP项目我就是用最原始的PHP语句、以及Smarty 来写的
+当然我不是专门做PHP的。这个PHP项目我就是用最原始的PHP语句、以及Smarty 来写的
 
 如果有什么问题、或者是有什么意见或者建议。可以在这个项目下面提出来 额。。。我也不知道github能不能评论一个项目
 如果不能评论的话。大家可以给我发email: 452700765@qq.com
