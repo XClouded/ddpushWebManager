@@ -1,0 +1,118 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+<script type="text/javascript" src="http://libs.useso.com/js/respond.js/1.4.2/respond.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/css3pie/2.0beta1/PIE_IE678.js"></script>
+<![endif]-->
+<link type="text/css" rel="stylesheet" href="{#$base_path#}css/H-ui.css"/>
+<link type="text/css" rel="stylesheet" href="{#$base_path#}css/H-ui.admin.css"/>
+<link type="text/css" rel="stylesheet" href="{#$base_path#}font/font-awesome.min.css"/>
+<!--[if IE 7]>
+<link href="http://www.bootcss.com/p/font-awesome/assets/css/font-awesome-ie7.min.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<title>用户管理</title>
+</head>
+<body>
+<nav class="Hui-breadcrumb"><i class="icon-home"></i> 首页 <span class="c-gray en">&gt;</span> 用户中心 <span class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="icon-refresh"></i></a></nav>
+<div class="pd-20">
+  <div class="text-c">
+    <input type="text" class="input-text" style="width:250px" placeholder="输入用户ID、UUID、昵称" name=""><button type="submit" class="btn btn-success" name=""><i class="icon-search"></i> 搜用户</button>
+  </div>
+  <div class="cl pd-5 bg-1 bk-gray mt-20">
+    <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
+    <a href="javascript:;" onclick="user_add('650','','添加用户','user_add.php')" class="btn btn-primary radius"><i class="icon-plus"></i> 添加用户</a></span>
+    <span class="r">共有数据：<strong>{#$user_count#}</strong> 条</span>
+  </div>
+  <table class="table table-border table-bordered table-hover table-bg table-sort">
+    <thead>
+      <tr class="text-c">
+        <th width="25"><input type="checkbox" name="" value=""></th>
+        <th width="80">ID</th>
+        <th width="250">UUID</th>
+        <th width="100">昵称</th>
+        <th width="100">设备类型</th>
+        <th width="100">状态</th>
+        <th width="130">推送个数</th>
+      </tr>
+    </thead>
+      <!--  'id'=>10000, 'uuid'=>'cfcd208495d565ef66e7dff9f98764da', 'nickname'=>'小明', 'dev_type'=>1,'status'=>0, 'push_count'=>0 -->
+    <tbody>
+      {#foreach $user_list as $user#}
+      
+      <tr class="text-c">
+        <td><input type="checkbox" value="1" name=""></td>
+        <td>{#$user.id#}</td>
+        <td>{#$user.uuid#}</td>
+        <td>{#$user.nickname#}</td>
+        <td>
+            <!-- 设备类型  -->
+            {#if $user.dev_type==0#}
+                IOS
+            {#elseif $user.dev_type==1#}
+                Android
+            {#else#}
+                PC
+            {#/if#}
+        </td>
+        <td>
+            <!-- 状态 -->
+            {#if $user.status==1#}
+                <span class="label label-success" >
+                    在线
+                </span>
+            {#else#}
+              <span class="label label-disable">
+                离线
+              </span>
+            {#/if#}
+        </td>
+        <td class="">
+            <!--个数-->
+            {#$user.push_count#}
+        </td>
+      </tr>
+     
+      {#/foreach#}
+    </tbody>
+  </table>
+  <div id="pageNav" class="pageNav"></div>
+</div>
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="{#$base_path#}layer/layer.min.js"></script>
+<script type="text/javascript" src="{#$base_path#}js/pagenav.cn.js"></script>
+<script type="text/javascript" src="{#$base_path#}js/H-ui.js"></script>
+<script type="text/javascript" src="{#$base_path#}plugin/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="{#$base_path#}js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="{#$base_path#}js/H-ui.admin.js"></script>
+<script type="text/javascript">
+// window.onload = (function(){
+//     // optional set
+//     pageNav.pre="&lt;上一页";
+//     pageNav.next="下一页&gt;";
+//     // p,当前页码,pn,总页面
+//     pageNav.fn = function(p,pn){$("#pageinfo").text("当前页:"+p+" 总页: "+pn);};
+//     //重写分页状态,跳到第三页,总页33页
+//     pageNav.go(1,13);
+// });
+// $('.table-sort').dataTable({
+// 	"lengthMenu":false,//显示数量选择 
+// 	"bFilter": false,//过滤功能
+// 	"bPaginate": false,//翻页信息
+// 	"bInfo": false,//数量信息
+// 	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+// 	"bStateSave": true,//状态保存
+// 	"aoColumnDefs": [
+// 	  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+// 	  {"orderable":false,"aTargets":[0,8]}// 制定列不参与排序
+// 	]
+// });
+</script>
+</body>
+</html>

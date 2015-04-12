@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+<script type="text/javascript" src="http://libs.useso.com/js/respond.js/1.4.2/respond.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/css3pie/2.0beta1/PIE_IE678.js"></script>
+<![endif]-->
+<link type="text/css" rel="stylesheet" href="{#$base_path#}css/H-ui.css"/>
+<link type="text/css" rel="stylesheet" href="{#$base_path#}css/H-ui.admin.css"/>
+<link type="text/css" rel="stylesheet" href="{#$base_path#}font/font-awesome.min.css"/>
+<!--[if IE 7]>
+<link href="http://www.bootcss.com/p/font-awesome/assets/css/font-awesome-ie7.min.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<title>添加用户</title>
+</head>
+<body>
+<div class="pd-20">
+  <div>
+    <!--<form action="./user_add.php" method="post">-->
+      <table class="table table-border table-bordered table-bg">
+          <tbody>
+          <tr>
+              <th width="200" class="text-r"><span class="c-red">*</span> ID： </th>
+              <td><input type="text" style="width:300px" class="input-text" value="{#$user_id#}" disabled="disabled" id="user_id" name="user_id" ></td>
+          </tr>
+          <tr>
+              <th class="text-r"><span class="c-red">*</span> UUID：</th>
+              <td><input type="text" style="width:300px" class="input-text" value="{#$user_uuid#}" disabled="disabled" id="user_uuid" name="user_uuid" ></td>
+          </tr>
+          <tr>
+              <th width="200" class="text-r">消息类型</th>
+              <td>
+                  <label><input type="radio" name="msg_type" id="msg_type_0x10" value="10" checked="checked" />通用消息(0x10)</label>
+                  <label><input type="radio" name="msg_type" id="msg_type_0x11" value="11" />分组消息(0x11)</label>
+                  <label><input type="radio" name="msg_type" id="msg_type_0x20" value="20" />自定义消息(0x20)</label>
+              </td>
+          </tr>
+
+          <tr>
+              <th class="text-r"><span class="c-red">*</span> 消息内容：</th>
+              <td>
+                  <label><textarea class="textarea radius" name="msg_data" id="msg_data" ></textarea></label>
+                  <!--<label>消息类型为11时消息内容为long类型数字</label>-->
+              </td>
+          </tr>
+
+          <tr>
+              <th></th>
+              <td><button class="btn btn-success radius" type="button" name="push" onclick="push();"> 确定</button></td>
+          </tr>
+          </tbody>
+      </table>
+    <!--</form>-->
+  </div>
+</div>
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="{#$base_path#}js/Validform_v5.3.2_min.js"></script> 
+<script type="text/javascript" src="{#$base_path#}js/H-ui.js"></script> 
+<script type="text/javascript" src="{#$base_path#}js/H-ui.admin.js"></script> 
+<script type="text/javascript">
+$(".Huiform").Validform();
+
+    //有点无语。这里的form的地址不知道填神马了。总是提交不了。
+    //html好久没玩了。都忘了。。逼我用ajax。。。好吧
+
+function push()
+{
+    //var userId = $('#user_id')[0].value;
+    var userUUID = $('#user_uuid')[0].value;
+    var msgData = $('#msg_data')[0].value;
+    var $msg10 = $('#msg_type_0x10')[0];
+    var $msg11 = $('#msg_type_0x11')[0];
+    var $msg20 = $('#msg_type_0x20')[0];
+
+    var msg_type = 10;
+
+    if ($msg10.checked ) {
+        msg_type = 10;
+    }
+    else if ($msg11.checked ) {
+        msg_type = 11;
+    }
+    else if ($msg20.checked ) {
+        msg_type = 20;
+    }
+    if( ( msg_type == 11 || msg_type == 20 ) &&  msgData.length < 1 )
+    {
+        alert("请输入推送消息内容");
+        return ;
+    }
+
+    if( msg_type == 11 && isNaN(msgData) )
+    {
+        alert("分类信息内容必须是数字");
+        return ;
+    }
+    var pushUrl = "push.php?uuid=" + userUUID + "&type=" + msg_type + "&data=" + msgData;
+
+    $.get(pushUrl, function(data, status)
+    {
+        //data  get请求结果
+        //status get请求状态   状态是 success
+        //处理请求结果代码...
+        //alert("" + data);
+        if( data == "success" )
+        {
+            alert("下发推送任务成功!");
+        }
+        else
+        {
+            alert("下发推送任务失败!");
+        }
+    });
+//
+//    $.post("libs/logined.php",
+//    {    //post的数据字段对象
+//        user_name: "name",
+//        user_pass:    "123456"
+//    },
+//    function(data, status)
+//    {
+//        //处理post的请求结果
+//    });
+
+
+}
+</script>
+</body>
+</html>
