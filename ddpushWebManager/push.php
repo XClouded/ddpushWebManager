@@ -30,7 +30,7 @@ $data = $_GET['data'];
  *      这个值要放到HttpDdpushServer 里判断 用来检测这个推送者是否有权限推送信息
  *
  ***/
-$pusUrl = 'http://192.168.1.107:8888/?act=user&type='.$type.'uuid='.$uuid.'&data='.$data.'&ticket=35as1df35a1sdf5a1sdf35';
+$pusUrl = 'http://192.168.1.107:8888/?act=user&type='.$type.'&uuid='.$uuid.'&data='.$data.'&ticket=35as1df35a1sdf5a1sdf35';
 //
 
 $opts = array(
